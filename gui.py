@@ -20,151 +20,214 @@ GWL_EXSTYLE=-20
 WS_EX_APPWINDOW=0x00040000
 WS_EX_TOOLWINDOW=0x00000080
 
-class Header_Frame(Frame):
-    def __init__(self, ws):
-        Frame.__init__(self, ws, relief="solid", bd=0)
-        self.ws = ws
-        self.widgets()
+class Frame:
+    def create_header_frame(container):
+        frame = ttk.Frame(container, padding=0, relief='flat')
 
-    def widgets(self):
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
+        frame.columnconfigure(0, weight=1)
+        frame.columnconfigure(1, weight=1)
 
-        # logo design
-        logo = Image.open('./Resources/Images/logo.png')
-        logo = logo.resize((60, 40), Image.ANTIALIAS)
-        logo_photo: object = ImageTk.PhotoImage(logo)
-        self.logo_image = Label(self, image=logo_photo, justify=RIGHT)
-        self.logo_image.image = logo_photo
-        self.logo_image.grid(column=0, row=0, sticky="w", padx=(10, 10), pady=(10, 10))
+        # Main logo design
+        main_logo_photo, main_logo_width, main_logo_height = Function.get_image(150, './Resources/Images/mainLogo.png')
+        frame.main_logo_image = Label(frame, image=main_logo_photo, justify=RIGHT)
+        frame.main_logo_image.image = main_logo_photo
+        frame.main_logo_image.grid(column=0, row=0, sticky="w", padx=(0, 10), pady=(0, 0))
 
         # preferences button design
-        self.menu_button: object = tk.Menubutton(self, relief="raised", width=10, height=2,
-                                                 text="menu",
-                                                 font=tkFont.Font(family="Roboto", size=12))
-        self.menu_button.grid(column=1, row=0, sticky="e", padx=(20, 10), pady=(20, 10))
+        menu_icon_photo, menu_icon_width, menu_icon_height = Function.get_image(30, './Resources/Images/menu.png')
+        frame.menu_icon_image = Label(frame, image=menu_icon_photo, justify=RIGHT)
+        frame.menu_icon_image.image = menu_icon_photo
 
-        self.menu = tk.Menu(self.menu_button, tearoff=0, font=tkFont.Font(family="Roboto", size=12))
-        self.menu.add_command(label="About")
-        self.menu.add_command(label="Preferences", command=Event.preferences_menu_clicked)
-        self.menu.add_command(label="Check for update")
-        self.menu.add_separator()
-        self.menu.add_command(label="Report & Support")
-        self.menu.add_command(label="Contact us")
-        self.menu.add_separator()
-        self.menu.add_command(label="Sign out")
-        self.menu.add_command(label="Quit")
+        frame.menu_button: object = tk.Menubutton(frame, relief="flat", width=menu_icon_width, height=menu_icon_height,
+                                                 image=menu_icon_photo)
+        frame.menu_button.grid(column=1, row=0, sticky="e", padx=(10, 10), pady=(0, 0))
 
-        self.menu_button["menu"] = self.menu
+        frame.menu = tk.Menu(frame.menu_button, tearoff=0, font=tkFont.Font(family="Roboto", size=12))
+        frame.menu.add_command(label="About")
+        frame.menu.add_command(label="Preferences", command=Event.preferences_menu_clicked)
+        frame.menu.add_command(label="Check for update")
+        frame.menu.add_separator()
+        frame.menu.add_command(label="Report & Support")
+        frame.menu.add_command(label="Contact us")
+        frame.menu.add_separator()
+        frame.menu.add_command(label="Sign out")
+        frame.menu.add_command(label="Quit")
 
-class Footer_Frame(Frame):
-    def __init__(self, ws):
-        Frame.__init__(self, ws, relief="solid", bd=0)
-        self.ws = ws
-        self.widgets()
+        frame.menu_button["menu"] = frame.menu
 
-    def widgets(self):
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
+        return frame
 
-        # logo design
-        time_left_label = tk.Label(self, text="Time Left: 24 HR")
-        time_left_label.grid(column=0, row=0, padx=(10, 10), pady=(10, 10), sticky='w')
+    def create_statue_frame(container):
+        frame = ttk.Frame(container, padding=0, relief='flat')
 
-        # preferences button design
-        start_button = tk.Button(self, overrelief="solid", width=15, text="Buy License", repeatdelay=1000, repeatinterval=100)
-        start_button.grid(column=1, row=0, padx=(10, 10), pady=(10, 10), sticky='e')
+        frame.columnconfigure(0, weight=1)
+        frame.columnconfigure(1, weight=20)
+        frame.columnconfigure(2, weight=20)
 
-class Input_Device_Frame(Frame):
-    def __init__(self, ws):
-        Frame.__init__(self, ws, relief="solid", bd=0)
-        self.ws = ws
-        self.widgets()
+        user_photo, user_width, user_height = Function.get_image(20, './Resources/Images/user2.png')
+        frame.user_photo_image = Label(frame, image=user_photo, justify=RIGHT)
+        frame.user_photo_image.image = user_photo
+        frame.user_photo_image.grid(column=0, row=0, sticky="w", padx=(20, 0), pady=(0, 10))
 
-    def widgets(self):
-        # Input device design
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(0, weight=3)
+        email_label = tk.Label(frame, text="jyoona12345@gmail.com")
+        email_label.grid(column=1, row=0, padx=(0, 0), pady=(0, 10), sticky='w')
 
-        self.microphone_label: object = tk.Label(self,
-                                                 text="microphone",
-                                                 font=tkFont.Font(family="Roboto", size=12))
-        self.microphone_label.grid(column=0, row=0, sticky="w", padx=(20, 10), pady=(40, 0))
+        status_label = tk.Label(frame, text="Free")
+        status_label.grid(column=2, row=0, padx=(10, 10), pady=(0, 10), sticky='e')
 
-        microphone = Image.open('./Resources/Images/microphone.png')
-        microphone = microphone.resize((100, 100), Image.ANTIALIAS)
-        microphone_photo: object = ImageTk.PhotoImage(microphone)
-        self.microphone_image = Label(self, image=microphone_photo)
-        self.microphone_image.image = microphone_photo
-        self.microphone_image.grid(column=0, row=1, sticky="w", padx=(20, 20), pady=(10, 10))
+        return frame
 
-        self.input_device_dict, self.output_device_dict = Function.get_sound_devices()
+    def create_input_frame(container):
+        style = ttk.Style()
+        style.configure("BW.TLabel", background="white")
 
-        self.input_device_combo: object = ttk.Combobox(self, state="readonly", width=25,
-                                                       font=tkFont.Font(family="나눔고딕", size=11),
-                                                       values=list(self.input_device_dict.keys()))
-        self.input_device_combo.grid(column=1, row=1, sticky="e", padx=(10, 10), pady=(10, 10))
-        self.input_device_combo.current(0)
+        frame = ttk.Frame(container, padding=0, relief='groove', style="BW.TLabel")
 
-class Output_Device_Frame(Frame):
-    def __init__(self, ws):
-        Frame.__init__(self, ws, relief="solid", bd=0)
-        self.ws = ws
-        self.widgets()
+        ################## label frame ##################
+        sub_frame_label = ttk.Frame(frame, padding=0, relief='flat', style="BW.TLabel") # for mic icon & input_device_combo
+        sub_frame_label.columnconfigure(0, weight=1)
+        sub_frame_label.columnconfigure(1, weight=20)
+        sub_frame_label.grid(column=0, row=0, sticky=W+E, padx=(5, 0), pady=(1, 0))
 
-    def widgets(self):
-        # Output device design
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(0, weight=3)
+        # label
+        mic_label = tk.Label(sub_frame_label, text="Microphone", bg="white", font='Helvetical 18 bold')
+        mic_label.grid(column=0, row=0, padx=(20, 10), pady=(10, 0), sticky='w')
 
-        self.speaker_label: object = tk.Label(self,
-                                              text="speaker",
-                                              font=tkFont.Font(family="Roboto", size=12))
-        self.speaker_label.grid(column=0, row=0, sticky="w", padx=(20, 10), pady=(40, 0))
+        input_status_label = tk.Label(sub_frame_label, text="Not Used", bg="white")
+        input_status_label.grid(column=1, row=0, padx=(10, 10), pady=(10, 0), sticky='e')
 
-        speaker = Image.open('./Resources/Images/speaker.png')
-        speaker = speaker.resize((100, 100), Image.ANTIALIAS)
-        speaker_photo: object = ImageTk.PhotoImage(speaker)
-        self.speaker_image = Label(self, image=speaker_photo)
-        self.speaker_image.image = speaker_photo
-        self.speaker_image.grid(column=0, row=1, sticky="w", padx=(20, 20), pady=(10, 10))
+        input_status_label = tk.Label(sub_frame_label, text="Test Noise Cancellation", bg="white", font='Helvetical 12 bold')
+        input_status_label.grid(column=0, row=1, padx=(20, 10), pady=(0, 10), sticky='w')
 
-        self.input_device_dict, self.output_device_dict = Function.get_sound_devices()
+        ################## input frame ##################
+        sub_frame_input = ttk.Frame(frame, padding=0, relief='flat', style="BW.TLabel") # for mic icon & input_device_combo
+        sub_frame_input.columnconfigure(0, weight=1)
+        sub_frame_input.columnconfigure(1, weight=10)
+        sub_frame_input.grid(column=0, row=1, sticky=W+E, padx=(5, 0), pady=(0, 0))
 
-        self.output_device_combo: object = ttk.Combobox(self, state="readonly", width=25,
-                                                        font=tkFont.Font(family="나눔고딕", size=11),
-                                                        values=list(self.output_device_dict.keys()))
-        self.output_device_combo.grid(column=1, row=1, sticky="e", padx=(10, 10), pady=(10, 10))
-        self.output_device_combo.current(0)
+        # mic icon image
+        mic_icon_photo, mic_icon_width, mic_icon_height = Function.get_image(30, './Resources/Images/mic.png')
+        frame.mic_icon_image = Label(sub_frame_input, image=mic_icon_photo, justify=RIGHT)
+        frame.mic_icon_image.image = mic_icon_photo
+        frame.mic_button: object = tk.Button(sub_frame_input, relief="groove", width=mic_icon_width, height=mic_icon_height, image=mic_icon_photo)
+        frame.mic_button.grid(column=0, row=0, sticky="w", padx=(15, 0), pady=(0, 0))
+
+        # input combo
+        frame.input_device_dict, frame.output_device_dict = Function.get_sound_devices()
+        frame.input_device_combo: object = ttk.Combobox(sub_frame_input, state="readonly", width=40,
+                                                       values=list(frame.input_device_dict.keys()))
+        frame.input_device_combo.grid(column=1, row=0, sticky="e", padx=(0, 0), pady=(0, 0))
+        frame.input_device_combo.current(0)
+
+        ################## noise cancellation selector frame ##################
+        sub_frame_noise_cancellation_selector = ttk.Frame(frame, padding=0, relief='flat', style="BW.TLabel") # for mic icon & input_device_combo
+        sub_frame_noise_cancellation_selector.columnconfigure(0, weight=5)
+        sub_frame_noise_cancellation_selector.columnconfigure(1, weight=1)
+        sub_frame_noise_cancellation_selector.grid(column=0, row=2, sticky=W+E, padx=(5, 0), pady=(0, 5))
+        remove_noise_label = tk.Label(sub_frame_noise_cancellation_selector, text="Remove Noise", bg="white")
+        remove_noise_label.grid(column=0, row=0, padx=(10, 10), pady=(10, 10), sticky='e')
+        remove_noise_selector = tk.Label(sub_frame_noise_cancellation_selector, text="Foo", bg="white")
+        remove_noise_selector.grid(column=1, row=0, padx=(10, 10), pady=(10, 10), sticky='e')
+
+        return frame
+
+    def create_output_frame(container):
+        style = ttk.Style()
+        style.configure("BW.TLabel", background="white")
+
+        frame = ttk.Frame(container, padding=0, relief='groove', style="BW.TLabel")
+
+        ################## label frame ##################
+        sub_frame_label = ttk.Frame(frame, padding=0, relief='flat', style="BW.TLabel") # for mic icon & input_device_combo
+        sub_frame_label.columnconfigure(0, weight=1)
+        sub_frame_label.columnconfigure(1, weight=20)
+        sub_frame_label.grid(column=0, row=0, sticky=W+E, padx=(5, 0), pady=(1, 0))
+
+        # label
+        mic_label = tk.Label(sub_frame_label, text="Speaker", bg="white", font='Helvetical 18 bold')
+        mic_label.grid(column=0, row=0, padx=(20, 10), pady=(10, 20), sticky='w')
+
+        input_status_label = tk.Label(sub_frame_label, text="Not Used", bg="white")
+        input_status_label.grid(column=1, row=0, padx=(10, 10), pady=(10, 20), sticky='e')
+
+        ################## input frame ##################
+        sub_frame_input = ttk.Frame(frame, padding=0, relief='flat', style="BW.TLabel") # for mic icon & input_device_combo
+        sub_frame_input.columnconfigure(0, weight=1)
+        sub_frame_input.columnconfigure(1, weight=10)
+        sub_frame_input.grid(column=0, row=1, sticky=W+E, padx=(5, 0), pady=(0, 0))
+
+        # mic icon image
+        mic_icon_photo, mic_icon_width, mic_icon_height = Function.get_image(30, './Resources/Images/speaker.png')
+        frame.mic_icon_image = Label(sub_frame_input, image=mic_icon_photo, justify=RIGHT)
+        frame.mic_icon_image.image = mic_icon_photo
+        frame.mic_button: object = tk.Button(sub_frame_input, relief="groove", width=mic_icon_width, height=mic_icon_height, image=mic_icon_photo)
+        frame.mic_button.grid(column=0, row=0, sticky="w", padx=(15, 0), pady=(0, 0))
+
+        # input combo
+        frame.input_device_dict, frame.output_device_dict = Function.get_sound_devices()
+        frame.input_device_combo: object = ttk.Combobox(sub_frame_input, state="readonly", width=40,
+                                                       values=list(frame.output_device_dict.keys()))
+        frame.input_device_combo.grid(column=1, row=0, sticky="e", padx=(0, 0), pady=(0, 0))
+        frame.input_device_combo.current(0)
+
+        ################## noise cancellation selector frame ##################
+        sub_frame_noise_cancellation_selector = ttk.Frame(frame, padding=0, relief='flat', style="BW.TLabel") # for mic icon & input_device_combo
+        sub_frame_noise_cancellation_selector.columnconfigure(0, weight=5)
+        sub_frame_noise_cancellation_selector.columnconfigure(1, weight=1)
+        sub_frame_noise_cancellation_selector.grid(column=0, row=2, sticky=W+E, padx=(5, 0), pady=(0, 5))
+        remove_noise_label = tk.Label(sub_frame_noise_cancellation_selector, text="Remove Noise", bg="white")
+        remove_noise_label.grid(column=0, row=0, padx=(10, 10), pady=(10, 10), sticky='e')
+        remove_noise_selector = tk.Label(sub_frame_noise_cancellation_selector, text="Foo", bg="white")
+        remove_noise_selector.grid(column=1, row=0, padx=(10, 10), pady=(10, 10), sticky='e')
+
+        return frame
+
+    def create_footer_frame(container):
+        style = ttk.Style()
+        style.configure("FOOTER.TLabel", background="#cdd1ce")
+        frame = ttk.Frame(container, padding=0, relief='groove', style="FOOTER.TLabel")
+
+        frame.columnconfigure(0, weight=1)
+        frame.columnconfigure(1, weight=1)
+
+        frame.email_label = tk.Label(frame, text="You have 240 minutes.", bg="#cdd1ce")
+        frame.email_label.grid(column=0, row=0, padx=(10, 10), pady=(10, 10), sticky='w')
+
+        frame.mic_button: object = tk.Button(frame, relief="groove", text="upgrade", bg="#cdd1ce")
+        frame.mic_button.grid(column=1, row=0, sticky="e", padx=(10, 10), pady=(10, 10))
+
+        return frame
 
 class Main_Form(tk.Tk):
     def __init__(self):
         super().__init__()
 
         self.title("app")
-        self.geometry("450x550")
-        #self.resizable(0, 0)
+        self.geometry("400x550")
+        self.resizable(0, 0)
 
         # Make Window Draggable
         self.bind("<ButtonPress-1>", self.StartMove)
         self.bind("<ButtonRelease-1>", self.StopMove)
         self.bind("<B1-Motion>", self.OnMotion)
 
+        self.columnconfigure(0, weight=1)
+
         # Header Frame
-        self.header_frame = Header_Frame(self)
-        self.header_frame.pack(fill="both", expand=False)
+        header_frame = Frame.create_header_frame(self)
+        header_frame.grid(column=0, row=0, sticky=W+E)
 
-        # Input Device Frame
-        self.input_device_frame = Input_Device_Frame(self)
-        self.input_device_frame.pack(fill="both", expand=True)
+        status_frame = Frame.create_statue_frame(self)
+        status_frame.grid(column=0, row=1, sticky=W+E)
 
-        # Output Device Frame
-        self.output_device_frame = Output_Device_Frame(self)
-        self.output_device_frame.pack(fill="both", expand=True)
+        input_frame = Frame.create_input_frame(self)
+        input_frame.grid(column=0, row=2, padx=(10, 10), pady=(10, 10), sticky=W+E)
 
-        # Footer Frame
-        self.footer_frame = Footer_Frame(self)
-        self.footer_frame.pack(fill="both", expand=False)
+        input_frame = Frame.create_output_frame(self)
+        input_frame.grid(column=0, row=3, padx=(10, 10), pady=(10, 10), sticky=W+E)
+
+        footer_frame = Frame.create_footer_frame(self)
+        footer_frame.grid(column=0, row=4, padx=(10, 10), pady=(10, 10), sticky=W+E)
 
     def StartMove(self, event):
         self.x = event.x
@@ -323,6 +386,19 @@ class Function:
                 output_device_dict[device['name']] = index
 
         return input_device_dict, output_device_dict
+
+    @staticmethod
+    def get_height_size_with_fixed_aspect_ratio(fixed_logo_width, real_width, real_height):
+        width_percent = (fixed_logo_width / float(real_width))
+        return int((float(real_height) * float(width_percent)))
+
+    @staticmethod
+    def get_image(height, path):
+        main_logo_width = height
+        main_logo = Image.open(path)
+        main_logo_height = Function.get_height_size_with_fixed_aspect_ratio(main_logo_width, main_logo.size[0], main_logo.size[1])
+        main_logo = main_logo.resize((main_logo_width, main_logo_height), Image.ANTIALIAS)
+        return ImageTk.PhotoImage(main_logo), main_logo_width, main_logo_height # returns image, width, height
 
     @staticmethod
     def set_appwindow(root): # make program appear on windows taskbar

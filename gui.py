@@ -6,15 +6,6 @@ from tkinter import messagebox
 from tkinter import *
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
-import subprocess
-import psutil
-import tempfile
-import os
-import shutil
-import time
-from typing import List, Union, Dict, Any
-import json
-from ctypes import windll
 
 GWL_EXSTYLE=-20
 WS_EX_APPWINDOW=0x00040000

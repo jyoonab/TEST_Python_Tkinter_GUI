@@ -1,4 +1,4 @@
-# Tkinter GUI Sample Project
+# Tkinter Simple GUI Project
 
 ## Summary & Purpose
 A Simple Tkinter GUI Project

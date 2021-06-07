@@ -51,21 +51,21 @@ class Frame:
 
 
         product_full_name_label = tk.Label(sub_frame_right, text="Windows OS용 Acoustic Noise Cancellation", font='Helvetical 10 bold')
-        product_full_name_label.grid(column=0, row=0, padx=(0, 0), pady=(10, 2), sticky="w")
+        product_full_name_label.grid(column=0, row=0, padx=(3, 0), pady=(10, 2), sticky="w")
 
 
         version_label = tk.Label(sub_frame_right, text="버전 1.0.0 (빌드 1)", font='Helvetical 10')
-        version_label.grid(column=0, row=1, padx=(0, 0), pady=(2, 2), sticky="w")
+        version_label.grid(column=0, row=1, padx=(3, 0), pady=(2, 2), sticky="w")
 
 
-        summary_label = tk.Label(sub_frame_right, text="본 프로그램은 존나 쩝니다. 개쩝니다.", font='Helvetical 10')
+        summary_label = tk.Message(sub_frame_right, width= 200, text="본 프로그램은 존나 쩝니다. 개쩝니다. 본 프로그램은 존나 쩝니다. 개쩝니다. 본 프로그램은 존나 쩝니다. 개쩝니다.", font='Helvetical 10')
         summary_label.grid(column=0, row=2, padx=(0, 0), pady=(2, 2), sticky="w")
 
 
         copy_rights_label = tk.Label(sub_frame_right, text="@ 2021 All Rights Reserved", font='Helvetical 10')
-        copy_rights_label.grid(column=0, row=3, padx=(0, 0), pady=(2, 10), sticky="w")
+        copy_rights_label.grid(column=0, row=3, padx=(3, 0), pady=(2, 10), sticky="w")
 
-        frame.mic_button: object = tk.Button(frame, relief="groove", text="Terms and Conditions", bg="#cdd1ce")
+        frame.mic_button: object = tk.Button(frame, relief="flat", text="Terms and Conditions", bg="#cdd1ce")
         frame.mic_button.grid(column=2, row=1, sticky="e", padx=(10, 10), pady=(10, 10))
 
         return frame
@@ -74,7 +74,7 @@ class Frame:
         frame = ttk.Frame(container, padding=0, relief='flat')
         frame.columnconfigure(1, weight=1)
 
-        frame.mic_button: object = tk.Button(frame, relief="groove", text="Terms and Conditions", bg="#cdd1ce", font='Helvetical 10')
+        frame.mic_button: object = tk.Button(frame, relief="flat", text="Terms and Conditions", bg="#cdd1ce", font='Helvetical 10')
         frame.mic_button.grid(column=1, row=0, sticky="e", padx=(10, 10), pady=(10, 10))
 
         return frame

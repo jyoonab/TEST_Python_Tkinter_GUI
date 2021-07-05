@@ -7,7 +7,8 @@ from tkinter import *
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
 import pystray
-from pystray import MenuItem as item
+from pystray import Icon as icon, Menu as menu, MenuItem as item
+
 
 GWL_EXSTYLE=-20
 WS_EX_APPWINDOW=0x00040000
@@ -20,8 +21,9 @@ class Tray_Icon:
 
     def create_tray_icon():
         tray_icon_image = Image.open('./Resources/Images/mic.png')
-        menu = (item('Quit', Tray_Icon.quit_window), item('Show', Tray_Icon.show_window))
-        icon = pystray.Icon("Test Icon 1", tray_icon_image, "Test Icon 1", menu)
+
+        menu = pystray.Menu(pystray.MenuItem('Quit', Tray_Icon.quit_window), pystray.MenuItem('Show', Tray_Icon.show_window, default=True))
+        icon = pystray.Icon("Quit", tray_icon_image, "Show", menu)
         icon.run()
 
     def quit_window(icon, item):
@@ -30,7 +32,7 @@ class Tray_Icon:
 
     def show_window(icon, item):
         icon.stop()
-        main_frame.after(0,window.deiconify)
+        main_frame.after(0,main_frame.deiconify)
 
 class Main_Form(tk.Tk):
     def __init__(self):
